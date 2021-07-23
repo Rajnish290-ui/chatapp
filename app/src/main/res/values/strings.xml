@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Messagekr</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="login_with_mobile_no">Login with Mobile no</string>
+    <string name="login">Login</string>
+    <string name="setting">Setting</string>
+    <string name="logout">LogOut</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="calls">calls</string>
+    <string name="status">status</string>
+    <string name="chats">chats</string>
+</resources>
