@@ -59,15 +59,15 @@ public class chatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 list.clear();
-                Log.d("LOg1","line 65");
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Log.d("LOg2","line 66");
-                    User user=dataSnapshot.getValue(User.class);
 
-                    Log.d("LOg3","line 68");
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    User user=dataSnapshot.getValue(User.class);
                     assert user != null;
                     user.setUserId(dataSnapshot.getKey());
-                   list.add(user);
+                    if(!user.getUserId().equals(FirebaseAuth.getInstance().getUid())){
+                        list.add(user);
+                    }
+
 
                 }
                 adapter.notifyDataSetChanged();

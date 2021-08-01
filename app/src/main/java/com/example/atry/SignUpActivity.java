@@ -84,12 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                 addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-//                HashMap<String,Object> map=new HashMap<>();
-//                map.put("Email",MMail);
-//                map.put("Username",uuname);
-//                map.put("ID",auth.getCurrentUser().getUid());
-//                map.put("bio","");
-//                map.put("imageurl","default");
+
                 User user=new User( UMail,Uname,Upass,auth.getCurrentUser().getUid());
                 database.child("User").child(auth.getCurrentUser().getUid()).setValue(user)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -109,6 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
 
+                progressDialog.dismiss();
                 Toast.makeText( SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

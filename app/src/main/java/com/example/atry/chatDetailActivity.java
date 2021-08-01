@@ -29,24 +29,24 @@ import java.util.Date;
 
 public class chatDetailActivity extends AppCompatActivity {
 
-    ActivityChatDetailBinding  binding;
+    ActivityChatDetailBinding binding;
     DatabaseReference database;
     FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityChatDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityChatDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
 
-        auth=FirebaseAuth.getInstance();
-        database= FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
 
-       final String senderid=auth.getUid();
-        String recieverid=getIntent().getStringExtra("userId");
-        String  name=getIntent().getStringExtra("username");
-        String  profilePic=getIntent().getStringExtra("profilePic");
+        final String senderid = auth.getUid();
+        String recieverid = getIntent().getStringExtra("userId");
+        String name = getIntent().getStringExtra("username");
+        String profilePic = getIntent().getStringExtra("profilePic");
 
 
         binding.userName.setText(name);
@@ -55,33 +55,36 @@ public class chatDetailActivity extends AppCompatActivity {
         binding.backImageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent( chatDetailActivity.this,MainActivity.class);
+                Intent intent = new Intent(chatDetailActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        final ArrayList<MessageModel> messageModels=new ArrayList<>();
-        final chatAdapter chatAdapter = new chatAdapter(messageModels,this);
+        final ArrayList<MessageModel> messageModels = new ArrayList<>();
+        final chatAdapter chatAdapter = new chatAdapter(messageModels, this, recieverid);
         binding.chatDetailRecycleview.setAdapter(chatAdapter);
 
-        LinearLayoutManager linearLayoutManager =new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.chatDetailRecycleview.setLayoutManager(linearLayoutManager);
 
 
-
-       final String senderRoom=senderid+recieverid;
-       final String  recieverRoom=recieverid+senderid;
-
-
+        final String senderRoom = senderid + recieverid;
+        final String recieverRoom = recieverid + senderid;
 
 
         binding.sendmessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message=binding.tvMessage.getText().toString();
-                final MessageModel model =new MessageModel(senderid,message);
+                if(binding.tvMessage.getText().toString().isEmpty()){
+                    binding.tvMessage.setError("please Enter Message");
+                    return;
+                }
+                String message = binding.tvMessage.getText().toString();
+                final MessageModel model = new MessageModel(senderid, message);
                 model.setTimestamp(new Date().getTime());
                 binding.tvMessage.setText("");
+
+
                 database.child("chats").child(senderRoom).push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -101,11 +104,12 @@ public class chatDetailActivity extends AppCompatActivity {
         database.child("chats").child(senderRoom).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Log.d("Log","Enter into line 104");
+
                 messageModels.clear();
-                for(DataSnapshot snapshot1 :snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     MessageModel model = snapshot1.getValue(MessageModel.class);
-                    Log.d("Log","Enter into line 108");
+                    assert model != null;
+                    model.setMessageId(snapshot1.getKey());
                     messageModels.add(model);
 
                 }

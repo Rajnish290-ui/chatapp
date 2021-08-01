@@ -11,10 +11,16 @@ import android.widget.TextView;
 import com.example.atry.R;
 import com.example.atry.User;
 import com.example.atry.chatDetailActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -61,6 +67,26 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder> {
         User user = list.get(position);
         Picasso.get().load(user.getProfile()).placeholder(R.drawable.avatar).into(holder.image);
         holder.username.setText(user.getUsername());
+
+        FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(FirebaseAuth.getInstance().getUid()+user.getUserId())
+                .orderByChild("timestamp").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.hasChildren()){
+                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                        holder.lastChat.setText(dataSnapshot.child("message").getValue().toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,8 +6,17 @@ String email;
     String profile;
     String phoneNo;
     String userId;
+    String status;
 
-    public User(String email, String username, String password,String userId) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User(String email, String username, String password, String userId) {
         this.email = email;
         this.username = username;
         this.password = password;

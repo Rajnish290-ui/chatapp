@@ -5,8 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
     android:layout_marginEnd="5dp"
-    android:layout_marginRight="7dp"
+    android:layout_marginRight="34dp"
+    android:layout_marginBottom="8dp"
     android:background="@drawable/bg_reciever"
     android:maxWidth="310dp"
     android:maxHeight="400dp"
@@ -21,6 +23,7 @@
         android:layout_marginBottom="3dp"
         android:text="12:00 pm"
         android:textColor="@color/white"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -28,15 +31,20 @@
         android:id="@+id/recieve_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
         android:inputType="textMultiLine|text"
         android:maxWidth="270dp"
         android:minWidth="50dp"
         android:text="TextView"
         android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/recieve_time"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.485"
         app:layout_editor_absoluteX="16dp" />
 
     <androidx.constraintlayout.widget.Guideline

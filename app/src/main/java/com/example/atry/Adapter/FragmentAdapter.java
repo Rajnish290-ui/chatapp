@@ -57,11 +57,6 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             title="CALLS";
         }
 
-
-
-
-
-
         return  title;
     }
 }

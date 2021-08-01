@@ -2,10 +2,16 @@ package com.example.atry;
 
 public class MessageModel {
 
-    String Uid,message;
+    String Uid,message,messageId;
     Long timestamp;
 
+    public String getMessageId() {
+        return messageId;
+    }
 
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 
     public MessageModel(String uid, String message) {
         Uid = uid;
